@@ -3,12 +3,21 @@ from qiskit import QuantumCircuit, Aer, execute
 # ask the player a question
 # the idea is to think like a classical computer
 player_guess = input("Do you think the two cards will match? (y/n): ").lower()
+entangle_choice = input("Should the cards be entangled? (y/n): ").lower()
 
 # setting up the 2 quibit game
 qc = QuantumCircuit(2, 2)
-qc.h(0)
-qc.h(1)
 
+# put both cards (qubits) into superposition
+qc.h(0)
+
+# optional entanglement
+if entangle_choice == 'y':
+    qc.cx(0, 1)
+else:
+    qc.h(1)
+
+# measure both cards
 qc.measure(0, 0)
 qc.measure(1, 1)
 
